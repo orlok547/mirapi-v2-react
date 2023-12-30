@@ -1,0 +1,11 @@
+#wrapper-cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, calc(25% - 6px));
+	gap: 8px;
+}
+#wrapper-cards .character-card {
+	min-width: 200px;
+}
+#wrapper-cards .character-card:hover {
+	background-color: #fafafa;
+}
