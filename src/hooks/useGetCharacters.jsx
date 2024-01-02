@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { getCharacters } from "../services/getCharacters";
 
-export const useGetCharacters = (page)=>{
+export const useGetCharacters = (page, getAll)=>{
 	const [charactersList, setCharactersList] = useState([]);
 
 	useEffect(()=>{
-		getCharacters(page, true)
+		getCharacters(page, getAll)
 			.then((res)=>{
+				console.log(`res on useGetCharacters.jsx: `, res);
+
 				setCharactersList(res);
 			})
 			.catch((error)=>{
@@ -15,5 +17,6 @@ export const useGetCharacters = (page)=>{
 		;
 	}, [])
 
+	// console.log('useGetCharacters.jsx ended!');
 	return { charactersList };
 }

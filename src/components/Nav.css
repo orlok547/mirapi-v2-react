@@ -1,0 +1,11 @@
+nav {
+	width: 100%;
+	padding: 6px;
+	position: sticky;
+	top: 0;
+	left: 0;
+	background-color: #000;
+}
+nav button:focus {
+	border: none;
+}

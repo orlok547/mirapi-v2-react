@@ -6,27 +6,62 @@
 
 export async function getCharacters(page = 1, getAll = false) {
 	let charList = [];
-	let urlTarget = `https://webapi.mir4global.com/nft/lists?listType=sale&class=0&levMin=0&levMax=0&powerMin=0&powerMax=0&priceMin=0&priceMax=0&sort=latest&page=${page}&languageCode=en`;
 
-	try {
-		const res = await fetch(urlTarget);
+	const fetchData = async ()=>{
+		let urlTarget = `https://webapi.mir4global.com/nft/lists?listType=sale&class=0&levMin=0&levMax=0&powerMin=0&powerMax=0&priceMin=0&priceMax=0&sort=latest&page=${page}&languageCode=en`;
+		
+		// console.log('page on getCharacters.js: ', page);
 
-		if (!res.ok) {
-			console.error('fetch failed with status code ', res.status);
+		try {
+			const res = await fetch(urlTarget);
+	
+			if (!res.ok) {
+				console.error('fetch failed with status code ', res.status);
+				return null;
+			}
+	
+			const data = await res.json();
+			/* console.log('data fetched!');
+			console.log('data: ', data.data); */
+
+			// console.log('page: ', page);
+	
+			return data.data.lists;
+			// charList = data.data.lists;	
+		} catch (error) {
+			console.error('Error while fetching: ', error);
 			return null;
 		}
+	};
 
-		const data = await res.json();
-		/* console.log('data fetched!');
-		console.log('data: ', data.data); */
+	if (getAll) {
+		do {
+			const result = await fetchData();
 
-		// return data.data.lists;
-		charList = data.data.lists;
+			// console.log('result on doWhile getCharacters.js: ', result);
+			
+			if (result != null && result.length > 0) {
+				charList = charList.concat(result);
+			} else {
+				console.log(`Page doesn't exits.`);
+				break;
+			}
 
-	} catch (error) {
-		console.error('Error while fetching: ', error);
-		return null;
+			page++;
+		} while (getAll);
+	} else {
+		const result = await fetchData();
+		
+		// console.log('result on getCharacters.js: ', result);
+
+		if (result != null && result.length > 0) {
+			charList = charList.concat(result);
+		} else {
+			console.log(`Page doesn't exits.`);
+		}
+
 	}
 
+	// console.log('getCharacters.js ended!');
 	return charList;
 }
