@@ -43,7 +43,8 @@ const Home = ()=>{
 			console.error(error);
 		})
 		.finally(()=>{
-			console.log(`charactersList in finally on useEffect/Home.jsx!!`);
+			// console.log(`charactersList in finally on retrigger/Home.jsx!!`);
+
 			document.querySelector('#btn-fetch-more').classList.remove('disabled');
 		});
 	}
@@ -56,10 +57,10 @@ const Home = ()=>{
 		retrigger(page);
 	};
 
-	const triggerGetAllAtOnce = ()=>{
+	const toggleGetAllAtOnce = ()=>{
 		setGetAllAtOnce(!getAllAtOnce);
 
-		// console.log(`getAllAtOnce in triggerGetAllAtOnce on Home.jsx: `, getAllAtOnce);
+		// console.log(`getAllAtOnce in toggleGetAllAtOnce on Home.jsx: `, getAllAtOnce);
 	};
 
 	if (!charactersList || charactersList.length === 0) {
@@ -75,22 +76,52 @@ const Home = ()=>{
 				<Button id='btn-fetch-more' variant="dark" onClick={handleSetPage}>Fetch more</Button>
 				
 				<label htmlFor="checkbox-get-all">
-					<input type="checkbox" name="checkbox-get-all" id="checkbox-get-all" onClick={triggerGetAllAtOnce} />
+					<input type="checkbox" name="checkbox-get-all" id="checkbox-get-all" onClick={toggleGetAllAtOnce} />
 					Fetch all
 				</label>
 				
 				<div id="wrapper-cards">
 					{charactersList.map((char, index)=>{
+						// console.log(`char in charactersList.map on Home.jsx: `, char);
+						console.log(`char.test in charactersList.map on Home.jsx: `, char.test);
+						// if (!char.test) char.test = 'Hello test in charactersList.map on Home.jsx';
+
 						return (
 							<Card key={index} className='character-card'>
 								<Card.Body>
-									<Card.Title>{char.characterName}</Card.Title>
+									<Card.Title>
+										<a href={`https://xdraco.com/nft/trade/${char.seq}`} target="_blank" rel="noopener noreferrer">
+											{char.characterName}
+										</a>
+									</Card.Title>
 									<Card.Text>
-										ID: {char.transportID}
+										ID: <strong>{char.transportID}</strong>
+									</Card.Text>
+									<Card.Text className='wrapper-price'>
+										Price: <img src="/ico-wemix-credit-logo.webp" width="15" /> <strong>{char.price}</strong>
 									</Card.Text>
 									<Card.Text>
-										Price: {char.price}
+										Level: <strong>{char.lv}</strong>
 									</Card.Text>
+									<Card.Text>
+										Power Score: <strong>{char.powerScore}</strong>
+									</Card.Text>
+									<Card.Text>
+										Test: <strong>{char.test}</strong>
+									</Card.Text>
+									{/* {char.skills?.map((skill, ind)=>{
+										console.log(`char.skills in char.skills.map on Home.jsx: `, char.skills);
+										return (
+											<>
+												<Card.Text key={ind}>
+													Skill Name: <strong>{skill.skillName}</strong>
+												</Card.Text>
+												<Card.Text>
+													Skill Level: <strong>{skill.skillLevel}</strong>
+												</Card.Text>
+											</>
+										)
+									})} */}
 								</Card.Body>
 							</Card>
 						)

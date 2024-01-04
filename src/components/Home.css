@@ -13,3 +13,9 @@
 #wrapper-cards .character-card:hover {
 	background-color: #fafafa;
 }
+#wrapper-cards .character-card .wrapper-price {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+}
